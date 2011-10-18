@@ -9,6 +9,13 @@
  */
 class fpPaymentShippingContext
 {
+  
+  /**
+   * Customer
+   *
+   * @var sfGuardUser
+   */
+  protected $customer;
 
   /**
    * Constructor
@@ -16,13 +23,21 @@ class fpPaymentShippingContext
    * @param Product $item
    */
   public function __construct()
-  {    
+  {
+    if ($this->customer = $this->getContext()->getCustomer()) {
+      if (!($this->customer instanceof sfDoctrineRecord)) {
+        throw new sfException('The "' . get_class($this->customer) . '" is not model');
+      }
+      if (!$this->customer->getTable()->hasTemplate('fpPaymentProfileble')) {
+        throw new sfException('The "' . get_class($this->customer) . '" model must implement fpPaymentProfileble behavior');
+      }
+    }
   }
   
   /**
-   * Get shipping context
+   * Get payment context
    *
-   * @return fpPaymentShippingContext
+   * @return fpPaymentContext
    */
   protected function getContext()
   {

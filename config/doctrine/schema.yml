@@ -1,0 +1,18 @@
+fpPaymentShipping:
+  columns:
+    name: {type: string(50), notnull: true}
+    country: {type: string(2), notnull: true}
+    state: {type:  string(2)}
+
+fpPaymentShippingData:
+  columns:
+    profile_id: {type: integer, notnull: true}
+    country: {type: string(2), notnull: true}
+    state: {type:  string(2)}
+    standard_price: {type: decimal(10), scale: 2, notnull: true }
+    expedited_price: {type: decimal(10), scale: 2 }
+  relations:
+    Shipping:
+      class: fpPaymentShipping
+      local: profile_id
+      onDelete: CASCADE
