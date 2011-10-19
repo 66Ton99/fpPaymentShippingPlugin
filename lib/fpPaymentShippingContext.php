@@ -16,14 +16,35 @@ class fpPaymentShippingContext
    * @var sfGuardUser
    */
   protected $customer;
+  
+  /**
+   * Items
+   *
+   * @var pPaymentPriceManagerItem[]
+   */
+  protected $items;
 
   /**
    * Constructor
    *
-   * @param Product $item
+   * @param fpPaymentPriceManagerItem[] $items
    */
-  public function __construct()
+  public function __construct($items)
   {
+    foreach ($items as $item) {
+      if (!($item instanceof fpPaymentPriceManagerItem)) {
+        throw new sfException('The "' . get_class($item) . '" must be instance of fpPaymentPriceManagerItem');
+      }
+      if (!($item instanceof sfDoctrineRecord)) {
+        throw new sfException('The "' . get_class($item) . '" item of fpPaymentPriceManagerItem must be model');
+      }
+      if (!$item->getItem()->getTable()->hasTemplate('fpPaymentShippable')) {
+        throw new sfException('The "' . get_class($item->getItem()) .
+        	'" item of fpPaymentPriceManagerItem must implement fpPaymentShippable behavior');
+      }
+      $this->items[] = $item;
+    }
+    
     if ($this->customer = $this->getContext()->getCustomer()) {
       if (!($this->customer instanceof sfDoctrineRecord)) {
         throw new sfException('The "' . get_class($this->customer) . '" is not model');
@@ -32,6 +53,32 @@ class fpPaymentShippingContext
         throw new sfException('The "' . get_class($this->customer) . '" model must implement fpPaymentProfileble behavior');
       }
     }
+  }
+  
+	/**
+   * Get items
+   *
+   * @return fpPaymentPriceManagerItem[]
+   */
+  public function getItems()
+  {
+    return $this->items;
+  }
+  
+  /**
+   * Get shipping price
+   *
+   * @return double
+   */
+  public function getPrice()
+  {
+    $shippingPrice = 0.00;
+    /* @var $item fpPaymentPriceManagerItem */
+    foreach ($this->getItems() as $item) {
+      // TODO finish
+      //$item->getItem()->getShipping()->getPrice();
+    }
+    return $shippingPrice;
   }
   
   /**
