@@ -6,13 +6,13 @@ fpPaymentShipping:
 
 fpPaymentShippingData:
   columns:
-    profile_id: {type: integer, notnull: true}
+    shipping_id: {type: integer, notnull: true}
     country: {type: string(2), notnull: true}
-    state: {type:  string(2)}
+    state: {type:  string(2), notnull: true, default: ''}
     standard_price: {type: decimal(10), scale: 2, notnull: true }
     expedited_price: {type: decimal(10), scale: 2 }
   relations:
     Shipping:
       class: fpPaymentShipping
-      local: profile_id
+      local: shipping_id
       onDelete: CASCADE
