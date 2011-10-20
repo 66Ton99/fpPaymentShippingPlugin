@@ -22,7 +22,7 @@ class fpPaymentShippingContext
    *
    * @var pPaymentPriceManagerItem[]
    */
-  protected $items;
+  protected $items = array();
 
   /**
    * Constructor
@@ -35,7 +35,7 @@ class fpPaymentShippingContext
       if (!($item instanceof fpPaymentPriceManagerItem)) {
         throw new sfException('The "' . get_class($item) . '" must be instance of fpPaymentPriceManagerItem');
       }
-      if (!($item instanceof sfDoctrineRecord)) {
+      if (!($item->getItem() instanceof sfDoctrineRecord)) {
         throw new sfException('The "' . get_class($item) . '" item of fpPaymentPriceManagerItem must be model');
       }
       if (!$item->getItem()->getTable()->hasTemplate('fpPaymentShippable')) {

@@ -22,3 +22,13 @@ _schema.yml_
         fpPaymentShippable: ~
       columns:
         some_other_field: {type: integer, notnull: true}
+        
+You have to enable "fpPaymentShipping" module
+
+_settings.yml_
+
+    all:
+      .settings:
+        enabled_modules:
+          - fpPaymentShipping
+          
