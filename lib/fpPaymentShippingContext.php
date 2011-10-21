@@ -10,6 +10,9 @@
 class fpPaymentShippingContext
 {
   
+  const STANDART = 'standart';
+  const SXPEDITED = 'sxpedited';
+  
   /**
    * Customer
    *
@@ -38,9 +41,10 @@ class fpPaymentShippingContext
       if (!($item->getItem() instanceof sfDoctrineRecord)) {
         throw new sfException('The "' . get_class($item) . '" item of fpPaymentPriceManagerItem must be model');
       }
-      if (!$item->getItem()->getTable()->hasTemplate('fpPaymentShippable')) {
+      $behaviour = sfConfig::get('fp_payment_shipping_behaviour_name', 'fpPaymentShippable');
+      if (!$item->getItem()->getTable()->hasTemplate($behaviour)) {
         throw new sfException('The "' . get_class($item->getItem()) .
-        	'" item of fpPaymentPriceManagerItem must implement fpPaymentShippable behavior');
+        	'" item of fpPaymentPriceManagerItem must implement ' . $behaviour . ' behavior');
       }
       $this->items[] = $item;
     }

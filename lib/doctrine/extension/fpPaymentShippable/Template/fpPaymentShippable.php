@@ -56,5 +56,15 @@ class Doctrine_Template_fpPaymentShippable extends Doctrine_Template
       }
     }
   }
+  
+  /**
+   * Get product (item) shipping
+   *
+   * @return double
+   */
+  public function getShippingValue($quntity = 1)
+  {
+    return 0.0;
+  }
 }
 
