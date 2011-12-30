@@ -3,5 +3,5 @@
     <?php echo $form ?>
   </table>
   <hr />
-  <input type="submit" value="Send" />
+  <input type="submit" value="Next" />
 </form>
